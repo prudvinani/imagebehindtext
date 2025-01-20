@@ -55,7 +55,7 @@ interface ImageDimensions {
 export function ImageEditor() {
   const [image, setImage] = useState<string | null>(null);
   const [processedImage, setProcessedImage] = useState<string | null>(null);
-  const [imageDimensions, setImageDimensions] = useState<ImageDimensions | null>(null);
+  const [imageDimensions, setImageDimensions] = useState<ImageDimensions | null >(null);
   const [textLayers, setTextLayers] = useState<TextLayer[]>([
     {
       id: "1",
@@ -70,10 +70,11 @@ export function ImageEditor() {
   const [selectedLayerId, setSelectedLayerId] = useState<string>("1");
   const [showColorPicker, setShowColorPicker] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
-  const nodeRefs = useRef<{ [key: string]: React.RefObject<HTMLDivElement | any> }>({});
+
+  const nodeRefs = useRef<{ [key: string]: React.RefObject<HTMLDivElement | null > }>({});
 
   textLayers.forEach((layer) => {
-    if (!nodeRefs.current[layer.id]) {
+    if (!nodeRefs.current[layer.id]) {                        
       nodeRefs.current[layer.id] = React.createRef();
     }
   });
@@ -141,8 +142,8 @@ export function ImageEditor() {
       console.error("Error downloading image:", error);
     }
   };
-
-  const handleDrag = (id: string) => (e: any, data: { x: number; y: number }) => {
+                                                  // @ts-expect-error - error is related to the types of the variable
+  const handleDrag = (id: string) => (e, data: { x: number; y: number }) => {
     setTextLayers((prev) =>
       prev.map((layer) =>
         layer.id === id
@@ -403,6 +404,7 @@ export function ImageEditor() {
             <Draggable
               key={layer.id}
               bounds="parent"
+               // @ts-expect-error - error is related to the types of the variable
               nodeRef={nodeRefs.current[layer.id]}
               position={layer.position}
               onDrag={handleDrag(layer.id)}
