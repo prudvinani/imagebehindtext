@@ -105,7 +105,7 @@ export function ImageEditor() {
       const response = await fetch(`https://api.remove.bg/v1.0/removebg`, {
         method: "POST",
         headers: {
-          "X-Api-Key": `C46oUwY9qniba6dtgfN9rRFw`,
+          "X-Api-Key": "8gF8N3H4dPLPL5oFSNiKfT2G",
         },
         body: formData,
       });
